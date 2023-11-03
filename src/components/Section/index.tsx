@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ButtonStyled } from "../Button";
-import { DateDiv, SectionTaskContainer, TaskDiv } from "./styles";
 
 interface SectionTaskProps {
   id: number;
@@ -35,7 +34,7 @@ export function SectionTask(props: SectionTaskProps) {
   };
 
   return (
-    <SectionTaskContainer>
+    <div>
       {isEditing ? (
         <>
           <input type="text" value={editedTitle} onChange={changeTitle} />
@@ -43,10 +42,10 @@ export function SectionTask(props: SectionTaskProps) {
         </>
       ) : (
         <>
-          <TaskDiv onClick={props.onClick} style={{ cursor: "pointer" }}>
+          <div onClick={props.onClick} style={{ cursor: "pointer" }}>
             {props.children}
-          </TaskDiv>
-          <DateDiv>{new Date(props.date).toLocaleString()}</DateDiv>
+          </div>
+          <div>{new Date(props.date).toLocaleString()}</div>
 
           <ButtonStyled title={"Editar"} clickFunction={editMode} />
         </>
@@ -56,6 +55,6 @@ export function SectionTask(props: SectionTaskProps) {
         title={"Apagar"}
         clickFunction={() => props.handleDeleteTask(props.id)}
       />
-    </SectionTaskContainer>
+    </div>
   );
 }

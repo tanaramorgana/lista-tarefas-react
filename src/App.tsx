@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { SectionTask } from "./components/Section";
 import { ButtonStyled } from "./components/Button";
+import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
   interface Task {
@@ -154,14 +155,10 @@ function App() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", padding: "30px" }}>
+    <div>
+      <CssBaseline />
       <div>
-        <input
-          style={{ padding: "10px", width: "500px" }}
-          type="text"
-          ref={titleRef}
-          placeholder="Adicione uma tarefa"
-        />
+        <input type="text" ref={titleRef} placeholder="Adicione uma tarefa" />
         <ButtonStyled title={"Adicionar"} clickFunction={addTask} />
       </div>
       <div>
