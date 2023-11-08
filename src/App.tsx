@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import "./App.css";
 import { SectionTask } from "./components/Section";
-import { ButtonStyled } from "./components/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import { Box, Button, TextField, ThemeProvider } from "@mui/material";
+import { LightTheme } from "./shared/themes/Light";
 
 function App() {
   interface Task {
@@ -155,54 +155,82 @@ function App() {
   }
 
   return (
-    <div>
-      <CssBaseline />
-      <div>
-        <input type="text" ref={titleRef} placeholder="Adicione uma tarefa" />
-        <ButtonStyled title={"Adicionar"} clickFunction={addTask} />
-      </div>
-      <div>
-        <ButtonStyled title={"Todas"} clickFunction={showAll} />
-        <ButtonStyled title={"Concluídas"} clickFunction={showCompleted} />
-        <ButtonStyled title={"Pendentes"} clickFunction={showUncompleted} />
-        <ButtonStyled
-          title={"Ordenar por status"}
-          clickFunction={sortByStatus}
-        />
-        <ButtonStyled
-          title={"Ordenar alfabeticamente"}
-          clickFunction={sortByAlphabet}
-        />
-        <ButtonStyled title={"Ordenar por data"} clickFunction={sortByDate} />
-      </div>
-      {filteredTasks.map((task) => {
-        return (
-          <SectionTask
-            key={task.id}
-            id={task.id}
-            title={task.title}
-            date={task.date}
-            onClick={() => toggleTask(task.id)}
-            handleDeleteTask={deleteTask}
-            handleEditTask={updateTaskTitle}
-          >
-            {editingTaskId === task.id ? (
-              <input
-                type="text"
-                value={task.title}
-                onChange={(e) => updateTaskTitle(task.id, e.target.value)}
-                onBlur={() => setEditingTaskId(null)}
-                autoFocus
-              />
-            ) : task.status ? (
-              <s>{task.title}</s>
-            ) : (
-              task.title
-            )}
-          </SectionTask>
-        );
-      })}
-    </div>
+    <ThemeProvider theme={LightTheme}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "20px",
+          height: "100vh",
+          justifyContent: "center",
+          bgColor: "#132043",
+        }}
+      >
+        <CssBaseline />
+        <Box display="flex" gap={1}>
+          <TextField
+            type="text"
+            inputRef={titleRef}
+            placeholder="Adicione uma tarefa"
+          />
+          <Button variant="contained" onClick={addTask}>
+            Adicionar
+          </Button>
+        </Box>
+        <Box display="flex" padding="20px" gap={1}>
+          <Button variant="contained" onClick={showAll}>
+            Todas
+          </Button>
+          <Button variant="contained" onClick={showCompleted}>
+            Concluídas
+          </Button>
+          <Button variant="contained" onClick={showUncompleted}>
+            Pendentes
+          </Button>
+        </Box>
+        <Box display="flex" padding="20px" gap={1}>
+          <Button variant="contained" onClick={sortByStatus}>
+            Ordenar por status
+          </Button>
+          <Button variant="contained" onClick={sortByAlphabet}>
+            Ordenar alfabeticamente
+          </Button>
+          <Button variant="contained" onClick={sortByDate}>
+            Ordenar por data
+          </Button>
+        </Box>
+        <Box display="flex" padding="20px" gap={2}>
+          {filteredTasks.map((task) => {
+            return (
+              <SectionTask
+                key={task.id}
+                id={task.id}
+                title={task.title}
+                date={task.date}
+                onClick={() => toggleTask(task.id)}
+                handleDeleteTask={deleteTask}
+                handleEditTask={updateTaskTitle}
+              >
+                {editingTaskId === task.id ? (
+                  <input
+                    type="text"
+                    value={task.title}
+                    onChange={(e) => updateTaskTitle(task.id, e.target.value)}
+                    onBlur={() => setEditingTaskId(null)}
+                    autoFocus
+                  />
+                ) : task.status ? (
+                  <s>{task.title}</s>
+                ) : (
+                  task.title
+                )}
+              </SectionTask>
+            );
+          })}
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
 

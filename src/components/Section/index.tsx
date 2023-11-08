@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ButtonStyled } from "../Button";
+
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 
 interface SectionTaskProps {
   id: number;
@@ -34,27 +35,50 @@ export function SectionTask(props: SectionTaskProps) {
   };
 
   return (
-    <div>
-      {isEditing ? (
-        <>
-          <input type="text" value={editedTitle} onChange={changeTitle} />
-          <ButtonStyled title={"Salvar"} clickFunction={saveEdit} />
-        </>
-      ) : (
-        <>
-          <div onClick={props.onClick} style={{ cursor: "pointer" }}>
-            {props.children}
-          </div>
-          <div>{new Date(props.date).toLocaleString()}</div>
+    <Box display="flex" flexWrap="wrap" gap={1}>
+      <Paper elevation={3}>
+        {isEditing ? (
+          <>
+            <TextField type="text" value={editedTitle} onChange={changeTitle} />
+            <Button variant="contained" onClick={saveEdit}>
+              Salvar
+            </Button>
+          </>
+        ) : (
+          <>
+            <Box
+              display="flex"
+              padding="20px"
+              alignItems="center"
+              flexDirection="column"
+              justifyContent="center"
+              height="150px"
+              onClick={props.onClick}
+            >
+              <Typography>{props.children}</Typography>
 
-          <ButtonStyled title={"Editar"} clickFunction={editMode} />
-        </>
-      )}
-
-      <ButtonStyled
-        title={"Apagar"}
-        clickFunction={() => props.handleDeleteTask(props.id)}
-      />
-    </div>
+              <Typography>{new Date(props.date).toLocaleString()}</Typography>
+            </Box>
+            <Box
+              display="flex"
+              height="50px"
+              padding="5px"
+              justifyContent="center"
+              gap={1}
+            >
+              <Button variant="contained" onClick={editMode}>
+                Editar
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => props.handleDeleteTask(props.id)}
+              >
+                Apagar
+              </Button>
+            </Box>
+          </>
+        )}
+      </Paper>
+    </Box>
   );
 }
